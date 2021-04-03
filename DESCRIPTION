@@ -1,11 +1,11 @@
 Package: pido
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Educational package for computational linguistics
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Dima Balobin
+Maintainer: The package maintainer <hanaan@internet.ru>
+Description: I don't know what it is, but
+    it's kind of hack.
+License: MIT
 Encoding: UTF-8
 LazyData: true

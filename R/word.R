@@ -1,6 +1,9 @@
 library(stringr)
 
 
+OR <- function (inp)  Reduce("|", inp)
+
+
 porterStem <- function(word) {
   PERFECTIVEGROUND <- "((ив|ивши|ившись|ыв|ывши|ывшись)|((?<=[ая])(в|вши|вшись)))$"
   REFLEXIVE <- "(с[яь])$"
@@ -21,7 +24,7 @@ porterStem <- function(word) {
 
   m <- str_match(word, RVRE)
 
-  if (is.na(m)) {
+  if (OR(is.na(m))) {
     return ('')
   }
 
@@ -52,7 +55,7 @@ porterStem <- function(word) {
 
   rv <- str_replace(rv, I, '')
 
-  if (!is.na(str_match(rv, DERIVATIONAL))) {
+  if (OR(!is.na(str_match(rv, DERIVATIONAL)))) {
     rv <- str_replace(rv, DER, '')
   }
 

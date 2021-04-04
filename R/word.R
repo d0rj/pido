@@ -1,10 +1,12 @@
 library(stringr)
 
 
-OR <- function (inp)  Reduce("|", inp)
+OR <- function(inp) Reduce("|", inp)
 
 
 porterStem <- function(word) {
+  stopifnot(is.character(word))
+
   PERFECTIVEGROUND <- "((ив|ивши|ившись|ыв|ывши|ывшись)|((?<=[ая])(в|вши|вшись)))$"
   REFLEXIVE <- "(с[яь])$"
   ADJECTIVE <- "(ее|ие|ые|ое|ими|ыми|ей|ий|ый|ой|ем|им|ым|ом|его|ого|ему|ому|их|ых|ую|юю|ая|яя|ою|ею)$"

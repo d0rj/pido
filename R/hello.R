@@ -13,9 +13,9 @@
 #   Check Package:             'Ctrl + Shift + E'
 #   Test Package:              'Ctrl + Shift + T'
 
-#' hello: package to deal with good and bad bees
+#' hello: package to SAY MY NAME
 #'
-#' Extremely important package for every Bear
+#' Extremely important package for every Shapoklyak
 #'
 #' I've written this package a long time ago in a far-far galaxy.
 #'

@@ -30,3 +30,13 @@ wordNGramm <- function(input, n, clearData = TRUE) {
 
   return (nGramm(tokens, n))
 }
+
+
+symbolNGramm <- function(input, n) {
+  stopifnot(is.character(input))
+  stopifnot(is.numeric(n))
+
+  tokens <- strsplit(input, split='', fixed=TRUE)[[1]]
+
+  return (nGramm(tokens, n))
+}

@@ -4,7 +4,16 @@ library(stringr)
 OR <- function(inp) Reduce("|", inp)
 
 
-porterStem <- function(word) {
+#' Returns n-gramms for given vector of some elements
+#'
+#' @name PorterStemmer.ru
+#'
+#' @param word Input word to be stemmed
+#' @return Stemmed word
+#' @export
+#' @examples
+#' porterStem.ru('прилежность')
+porterStem.ru <- function(word) {
   stopifnot(is.character(word))
 
   PERFECTIVEGROUND <- "((ив|ивши|ившись|ыв|ывши|ывшись)|((?<=[ая])(в|вши|вшись)))$"

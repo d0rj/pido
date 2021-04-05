@@ -1,18 +1,10 @@
 library(stringr)
 
 
-wordNGramm <- function(input, n, clearData = TRUE) {
-  stopifnot(is.character(input))
+nGramm <- function(tokens, n) {
+  stopifnot(is.vector(tokens))
   stopifnot(is.numeric(n))
-  stopifnot(is.logical(clearData))
-
   n <- n - 1
-
-  if (clearData) {
-    input <- str_replace(input, '[^a-zA-Z0-9 ]', ' ')
-  }
-  tokens <- strsplit(input, split=' ', fixed=TRUE)[[1]]
-
   stopifnot(length(tokens) > n)
 
   result <- list()
@@ -23,4 +15,18 @@ wordNGramm <- function(input, n, clearData = TRUE) {
   }
 
   return (result)
+}
+
+
+wordNGramm <- function(input, n, clearData = TRUE) {
+  stopifnot(is.character(input))
+  stopifnot(is.numeric(n))
+  stopifnot(is.logical(clearData))
+
+  if (clearData) {
+    input <- str_replace(input, '[^a-zA-Z0-9 ]', ' ')
+  }
+  tokens <- strsplit(input, split=' ', fixed=TRUE)[[1]]
+
+  return (nGramm(tokens, n))
 }

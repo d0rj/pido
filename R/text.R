@@ -1,27 +1,26 @@
-rep_gram <- function(text, n) {
-  r <- stringdist::qgrams(text, q=n)
-  g <- unlist(sapply(1:length(r), function(x) rep(colnames(r)[x], r[x])))
-
-  return (g)
-}
+library(stringr)
 
 
-rep_grams <- function(text, ngmin=1, ngmax=2) {
-  g <- unlist(sapply(ngmin:ngmax, function(x) rep_gram(text, x)))
+wordNGramm <- function(input, n, clearData = TRUE) {
+  stopifnot(is.character(input))
+  stopifnot(is.numeric(n))
+  stopifnot(is.logical(clearData))
 
-  return (g)
-}
+  n <- n - 1
 
-
-ngram_tokenize <- function(x, char=FALSE, ngmin=1, ngmax=3) {
-  stopifnot(ngmin <= ngmax)
-  stopifnot(is.logical(char))
-
-  y <- paste(x, collapse=" ")
-  if (char) {
-    return (rep_grams(y, ngmin = ngmin, ngmax = ngmax))
+  if (clearData) {
+    input <- str_replace(input, '[^a-zA-Z0-9 ]', ' ')
   }
-  else {
-    return (ngramrr::ngramrr(x, char=char, ngmin=ngmin, ngmax=ngmax))
+  tokens <- strsplit(input, split=' ', fixed=TRUE)[[1]]
+
+  stopifnot(length(tokens) > n)
+
+  result <- list()
+  index <- 1
+  for (i in 1:(length(tokens) - n)) {
+    result[[index]] <- tokens[i:(i + n)]
+    index <- index + 1
   }
+
+  return (result)
 }

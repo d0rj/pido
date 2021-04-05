@@ -32,16 +32,24 @@ wordNGramm <- function(input, n, clearData = TRUE) {
 }
 
 
-symbolNGramm <- function(input, n) {
+symbolNGramm <- function(input, n, strings = TRUE) {
   stopifnot(is.character(input))
   stopifnot(is.numeric(n))
+  stopifnot(is.logical(strings))
 
   tokens <- strsplit(input, split='', fixed=TRUE)[[1]]
 
   ngramms <- nGramm(tokens, n)
-  result <- c()
-  for (i in 1:length(ngramms)) {
-    result <- c(result, paste(ngramms[[i]], collapse=''))
+
+  if (strings) {
+    result <- c()
+    for (i in 1:length(ngramms)) {
+      result <- c(result, paste(ngramms[[i]], collapse=''))
+    }
+
+    return (result)
   }
-  return (result)
+  else {
+    return (ngramms)
+  }
 }

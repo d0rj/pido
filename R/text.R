@@ -38,5 +38,10 @@ symbolNGramm <- function(input, n) {
 
   tokens <- strsplit(input, split='', fixed=TRUE)[[1]]
 
-  return (nGramm(tokens, n))
+  ngramms <- nGramm(tokens, n)
+  result <- c()
+  for (i in 1:length(ngramms)) {
+    result <- c(result, paste(ngramms[[i]], collapse=''))
+  }
+  return (result)
 }

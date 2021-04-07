@@ -19,3 +19,25 @@ test_that('Errors check', {
 
   expect_error(porterStem.ru(1))
 })
+
+
+context('Porter stemmer for russian words')
+
+
+test_that('Simple test', {
+  expect_equal(porterStem.en('development'), 'develop')
+  expect_equal(porterStem.en('question'), 'question')
+  expect_equal(porterStem.en('combinations'), 'combin')
+  expect_equal(porterStem.en('based'), 'base')
+  expect_equal(porterStem.en('needs'), 'need')
+  expect_equal(porterStem.en('robotalization'), 'robot')
+})
+
+
+test_that('Errors check', {
+  expect_equal(porterStem.en(''), '')
+  expect_equal(porterStem.en('шалом'), 'шалом')
+  expect_equal(porterStem.en('TREES'), 'TREES')
+
+  expect_error(porterStem.en(1))
+})

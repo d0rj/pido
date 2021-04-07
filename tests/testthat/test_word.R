@@ -21,7 +21,7 @@ test_that('Errors check', {
 })
 
 
-context('Porter stemmer for russian words')
+context('Porter stemmer for english words')
 
 
 test_that('Simple test', {

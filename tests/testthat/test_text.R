@@ -18,7 +18,7 @@ test_that('Simple test', {
 test_that('Errors check', {
   expect_error(nGramm(c(1, 2, 3), 4))
 
-  expect_error(nGramm("hello", 2))
+  expect_error(nGramm('hello', 2))
 
-  expect_error(nGramm(c(1, 2, 3, 4), "a"))
+  expect_error(nGramm(c(1, 2, 3, 4), 'a'))
 })

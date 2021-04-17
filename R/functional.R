@@ -78,3 +78,17 @@ map <- function(x, f) {
 }
 #' @export
 `%map%` <- map
+
+
+#' @export
+mapN <- function(x, f) {
+  stopifnot(is.list(x))
+  if (is.function(f)) {
+    return (do.call(f, x))
+  }
+  if (is.language(f)) {
+    return (do.call(lambda_to_func(f), x))
+  }
+}
+#' @export
+`%mapN%` <- mapN

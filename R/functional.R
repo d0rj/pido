@@ -83,6 +83,7 @@ map <- function(x, f) {
 #' @export
 mapN <- function(x, f) {
   stopifnot(is.list(x))
+
   if (is.function(f)) {
     return (do.call(f, x))
   }
@@ -92,3 +93,25 @@ mapN <- function(x, f) {
 }
 #' @export
 `%mapN%` <- mapN
+
+
+#' @export
+invoke_map <- function(x, f) {
+  stopifnot(is.list(x))
+  stopifnot(is.vector(f))
+
+  if (is.function(f[[1]])) {
+    matrix <- sapply(1:length(x), function(i) do.call(f[[i]], x[i]))
+    result <- as.list(as.data.frame(matrix))
+    names(result) <- NULL
+    return (result)
+  }
+  if (is.language(f[[1]])) {
+    matrix <- sapply(1:length(x), function(i) do.call(lambda_to_func(f[[i]]), x[i]))
+    result <- as.list(as.data.frame(matrix))
+    names(result) <- NULL
+    return (result)
+  }
+}
+#' @export
+`%invoke_map%` <- invoke_map

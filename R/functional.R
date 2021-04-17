@@ -51,9 +51,17 @@ lambda_to_func <- function(expr) {
 #' # c(1, 2, 3, 4)
 #' init(c(1, 2, 3, 4))(function(x) {x * 2})()
 #' # c(2, 4, 6, 8)
-functor <- function(init=c(1)) {
+functor <- function(init=c(0)) {
   return (function(change=NULL) {
-    if (is.null(change)) { return (init) }
-    else { return (functor(change(init))) }
+    if (is.null(change)) {
+      return (init)
+    }
+    else if (is.language(change)) {
+      change <- lambda_to_func(change)
+      return ( functor(change(init)) )
+    }
+    else {
+      return (functor(change(init)))
+    }
   })
 }

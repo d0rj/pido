@@ -65,3 +65,16 @@ functor <- function(init=c(0)) {
     }
   })
 }
+
+
+#' @export
+map <- function(x, f) {
+  if (is.function(f)) {
+    return (f(x))
+  }
+  if (is.language(f)) {
+    return (lambda_to_func(f)(x))
+  }
+}
+#' @export
+`%map%` <- map

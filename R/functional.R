@@ -39,3 +39,21 @@ lambda_to_func <- function(expr) {
 
   return (eval(parse(text=paste("(function(", vars_string, ") {", expr_str_splitted[length(expr_str_splitted)], "})"))))
 }
+
+
+#' Returns functor for 'map'-like applying
+#'
+#' @param init Initial vector
+#' @return Functor
+#' @export
+#' @examples
+#' init(c(1, 2, 3, 4))()
+#' # c(1, 2, 3, 4)
+#' init(c(1, 2, 3, 4))(function(x) {x * 2})()
+#' # c(2, 4, 6, 8)
+functor <- function(init=c(1)) {
+  return (function(change=NULL) {
+    if (is.null(change)) { return (init) }
+    else { return (functor(change(init))) }
+  })
+}

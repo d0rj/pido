@@ -1,3 +1,4 @@
+library(stringr)
 
 
 #' Converts special defined lambda expression format to R function
@@ -36,6 +37,9 @@ lambda_to_func <- function(expr) {
     }
     vars_string <- sub('.', '', vars_string)
   }
+
+  if (vars_string == '')
+    vars_string <- str_extract(expr_str, '[a-zA-Z_]+')
 
   return (eval(parse(text=paste('(function(', vars_string, ') {', expr_str_splitted[length(expr_str_splitted)], '})'))))
 }
@@ -128,6 +132,8 @@ filter <- function(x, p) {
 }
 #' @export
 `%filter%` <- filter
+#' @export
+`%if%` <- filter
 
 
 #' @export

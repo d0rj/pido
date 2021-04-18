@@ -75,6 +75,8 @@ map <- function(x, f) {
   if (is.language(f)) {
     return (lambda_to_func(f)(x))
   }
+
+  return (NULL)
 }
 #' @export
 `%map%` <- map
@@ -90,6 +92,8 @@ mapN <- function(x, f) {
   if (is.language(f)) {
     return (do.call(lambda_to_func(f), x))
   }
+
+  return (NULL)
 }
 #' @export
 `%mapN%` <- mapN
@@ -112,6 +116,8 @@ invoke_map <- function(x, f) {
     names(result) <- NULL
     return (result)
   }
+
+  return (NULL)
 }
 #' @export
 `%invoke_map%` <- invoke_map

@@ -142,3 +142,67 @@ filter_not <- function(x, by) {
 }
 #' @export
 `%filter_not%` <- filter_not
+
+
+#' @export
+head_while <- function(x, p) {
+  stopifnot(is.vector(x))
+
+  if (length(x) == 0) {
+    return (x)
+  }
+
+  if (is.language(p)) {
+    p <- lambda_to_func(p)
+  }
+
+  result <- c(x[1])
+  for (elem in x) {
+    if (!p(elem)) {
+      if (length(result) == 1) {
+        return (NULL)
+      }
+      return (result[2:length(result)])
+    }
+    result <- c(result, elem)
+  }
+
+  if (length(result) == 1) {
+    return (NULL)
+  }
+  return (result[2:length(result)])
+}
+#' @export
+`%head_while%` <- head_while
+
+
+#' @export
+tail_while <- function(x, p) {
+  stopifnot(is.vector(x))
+
+  if (length(x) == 0) {
+    return (x)
+  }
+
+  if (is.language(p)) {
+    p <- lambda_to_func(p)
+  }
+
+  result <- c(x[1])
+  for (i in length(x):1) {
+    if (!p(x[i])) {
+      if (length(result) == 1) {
+        return (NULL)
+      }
+      return (rev(result[2:length(result)]))
+    }
+    result <- c(result, x[i])
+  }
+
+  if (length(result) == 1) {
+    return (NULL)
+  }
+  return (rev(result[2:length(result)]))
+}
+#' @export
+`%tail_while%` <- tail_while

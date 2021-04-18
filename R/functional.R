@@ -216,3 +216,9 @@ tail_while <- function(x, p) {
 `%all%` <- function(x, p) {
   return (all(x %map% p))
 }
+
+
+#' @export
+`%has%` <- function(x, e) {
+  return (e %in% x)
+}

@@ -9,5 +9,5 @@ Description: I don't know what it is, but
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Depends: R(>= 3.5), stringr
+Depends: R(>= 3.5), stringr, stringi
 RoxygenNote: 7.1.1

@@ -42,7 +42,8 @@ wordNGramm <- function(input, n, clearData = TRUE) {
   stopifnot(is.logical(clearData))
 
   if (clearData) {
-    input <- str_replace(input, '[^a-zA-Z0-9а-яА-Я ]', ' ')
+    # [^a-zA-Z0-9а-яА-Я ]
+    input <- str_replace(input, '\u005b\u005e\u0061\u002d\u007a\u0041\u002d\u005a\u0030\u002d\u0039\u0430\u002d\u044f\u0410\u002d\u042f \u005d', ' ')
   }
   tokens <- strsplit(input, split=' ', fixed=TRUE)[[1]]
 

@@ -248,3 +248,11 @@ flatMap <- function(x, f) {
 }
 #' @export
 `%flatMap%` <- flatMap
+
+
+#' @export
+identity <- function (x) x
+
+
+#' @export
+flatten <- function(x) { x %flatMap% identity }

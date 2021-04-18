@@ -1,6 +1,9 @@
 library(stringr)
 
 
+#' Helper function to OR boolean vector
+#'
+#' @param inp Vector of booleans
 OR <- function(inp) Reduce('|', inp)
 
 
@@ -85,11 +88,16 @@ porterStem.ru <- function(word) {
 }
 
 
+#' Split string helper function
+#'
+#' @param x String to split
 splitstring <- function(x) { strsplit(x, NULL)[[1]] }
 
 
-# function that returns a logical vector of TRUE/FALSE depending on vowel/consonant
-# for instance, for the input 'cry', it returns 'FALSE' 'FALSE' 'TRUE'
+#' Function that returns a logical vector of TRUE/FALSE depending on vowel/consonant
+#' for instance, for the input 'cry', it returns 'FALSE' 'FALSE' 'TRUE'
+#'
+#' @param x vector of booleans
 h1 <- function(x) {
   stopifnot(is.character(x))
 
@@ -109,7 +117,10 @@ h1 <- function(x) {
 }
 
 
-# function for returning the interger value of m
+#' Function for returning the interger value of m
+#'
+#' @param x1 word
+#' @param y1 suffix
 m <- function(x1, y1='') {
   stopifnot(is.character(x1))
   stopifnot(is.character(y1))
@@ -130,7 +141,10 @@ m <- function(x1, y1='') {
 }
 
 
-# function returns TRUE if and only if there is a vowel in the word left after you remove suffix y1 from the word x1
+#' Function returns TRUE if and only if there is a vowel in the word left after you remove suffix y1 from the word x1
+#'
+#' @param x1 word
+#' @param y1 suffix
 v <- function(x1, y1='') {
   stopifnot(is.character(x1))
   stopifnot(is.character(y1))
@@ -155,7 +169,10 @@ v <- function(x1, y1='') {
 }
 
 
-# function returns TRUE if and only if there is a double consonant at the end of the word left after you remove suffix y1 from the word x1
+#' Function returns TRUE if and only if there is a double consonant at the end of the word left after you remove suffix y1 from the word x1
+#'
+#' @param x1 word
+#' @param y1 suffix
 d <- function(x1, y1='') {
   stopifnot(is.character(x1))
   stopifnot(is.character(y1))
@@ -172,8 +189,11 @@ d <- function(x1, y1='') {
 }
 
 
-# function returns TRUE if and only if there is a sequence of cvc at the end of the word left after you remove suffix y1 from the word x1
-# except when the second consonant is w, x or y
+#' Function returns TRUE if and only if there is a sequence of cvc at the end of the word left after you remove suffix y1 from the word x1
+#' except when the second consonant is w, x or y
+#'
+#' @param x1 word
+#' @param y1 suffix
 cvc <- function(x1, y1='') {
   stopifnot(is.character(x1))
   stopifnot(is.character(y1))

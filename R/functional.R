@@ -54,9 +54,9 @@ lambda_to_func <- function(expr) {
 #' @return Functor
 #' @export
 #' @examples
-#' init(c(1, 2, 3, 4))()
+#' functor(c(1, 2, 3, 4))()
 #' # c(1, 2, 3, 4)
-#' init(c(1, 2, 3, 4))(function(x) {x * 2})()
+#' functor(c(1, 2, 3, 4))(function(x) {x * 2})()
 #' # c(2, 4, 6, 8)
 functor <- function(init=c(0)) {
   return (function(change=NULL) {
@@ -74,7 +74,15 @@ functor <- function(init=c(0)) {
 }
 
 
+#' map combinator
+#'
+#' @param x vector to which apply
+#' @param f function (or lambda expression) for mapping
+#' @return vector with applyed function
 #' @export
+#' @examples
+#' map(c(1, 2, 3, 4), (~ x^2))
+#' # c(1, 4, 9, 16)
 map <- function(x, f) {
   stopifnot(is.vector(x))
 
@@ -84,11 +92,24 @@ map <- function(x, f) {
 
   return (f(x))
 }
+#' map combinator (infix version)
+#'
+#' @param x vector to which apply
+#' @param f function (or lambda expression) for mapping
+#' @return vector with applyed function
 #' @export
 `%map%` <- map
 
 
+#' mapN combinator (apply map for each elements of subvectors respectively)
+#'
+#' @param x list of vectos to which apply
+#' @param f function (or lambda expression) for mapping
+#' @return vector with applyed function
 #' @export
+#' @examples
+#' mapN(list(c(1, 2, 3), c(4, 5, 6), c(7, 8, 9)), (x ~ y ~ z ~ x + y + z))
+#' # list(c(1, 4, 9), c(16, 25, 36), c(49, 64))
 mapN <- function(x, f) {
   stopifnot(is.list(x))
 
@@ -98,11 +119,23 @@ mapN <- function(x, f) {
 
   return (do.call(f, x))
 }
+#' mapN combinator (apply map for each subvector) (infix version)
+#'
+#' @param x list of vectos to which apply
+#' @param f function (or lambda expression) for mapping
+#' @return list of vectors with applyed function
 #' @export
 `%mapN%` <- mapN
 
 
+#' invoke_map combinator which apply each function to each vector respectively
+#'
+#' @param x list of vectos to which apply
+#' @param f list of functions (or lambda expressions) for mapping
+#' @return list of vectors with applyed function
 #' @export
+#' @examples
+#' invoke_map(list(c(1, 2, 3), c(4, 5, 6), c(7, 8, 9)), list((~ x^2), (~ x^3), (~ x^4)))
 invoke_map <- function(x, f) {
   stopifnot(is.list(x))
   stopifnot(is.vector(f))
@@ -119,11 +152,23 @@ invoke_map <- function(x, f) {
   names(result) <- NULL
   return (result)
 }
+#' invoke_map combinator which apply each function to each vector respectively (infix version)
+#'
+#' @param x list of vectos to which apply
+#' @param f list of functions (or lambda expressions) for mapping
+#' @return list of vectors with applyed function
 #' @export
 `%invoke_map%` <- invoke_map
 
 
+#' filter combinator which returns filtered vector by predicate
+#'
+#' @param x vector to filter
+#' @param p predicate
+#' @return filtered vector
 #' @export
+#' @examples
+#' filter(c(1, 2, 3, 4, 5, 6), (~ x > 3))
 filter <- function(x, p) {
   stopifnot(is.vector(x))
 
@@ -133,13 +178,30 @@ filter <- function(x, p) {
 
   return (x[p(x)])
 }
+#' filter combinator which returns filtered vector by predicate (infix version)
+#'
+#' @param x vector to filter
+#' @param p predicate
+#' @return filtered vector
 #' @export
 `%filter%` <- filter
+#' if combinator which returns filtered vector by predicate as 'filter' (infix version)
+#'
+#' @param x vector to filter
+#' @param p predicate
+#' @return filtered vector
 #' @export
 `%if%` <- filter
 
 
+#' filter_not combinator which returns filtered vector by reversed predicate
+#'
+#' @param x vector to filter
+#' @param p predicate
+#' @return filtered vector
 #' @export
+#' @examples
+#' filter_not(c(1, 2, 3, 4, 5, 6), (~ x > 3))
 filter_not <- function(x, p) {
   stopifnot(is.vector(x))
 
@@ -149,13 +211,30 @@ filter_not <- function(x, p) {
 
   return (x[!p(x)])
 }
+#' filter combinator which returns filtered vector by reversed predicate (infix version)
+#'
+#' @param x vector to filter
+#' @param p predicate
+#' @return filtered vector
 #' @export
 `%filter_not%` <- filter_not
+#' if_not combinator which returns filtered vector by reversed predicate as 'filter_not' (infix version)
+#'
+#' @param x vector to filter
+#' @param p predicate
+#' @return filtered vector
 #' @export
 `%if_not%` <- filter_not
 
 
+#' head_while combinator which returns head elements while predicate is TRUE
+#'
+#' @param x vector to filter
+#' @param p predicate
+#' @return head filtered
 #' @export
+#' @examples
+#' head_while(c(1, 2, 3, 4, 1, 2), (~ x < 3))
 head_while <- function(x, p) {
   stopifnot(is.vector(x))
 
@@ -183,11 +262,23 @@ head_while <- function(x, p) {
   }
   return (x[1:end])
 }
+#' head_while combinator which returns head elements while predicate is TRUE (infix version)
+#'
+#' @param x vector to filter
+#' @param p predicate
+#' @return head filtered
 #' @export
 `%head_while%` <- head_while
 
 
+#' tail_while combinator which returns tail elements while predicate is TRUE
+#'
+#' @param x vector to filter
+#' @param p predicate
+#' @return tail filtered
 #' @export
+#' @examples
+#' tail_while(c(1, 2, 3, 4, 1, 2), (~ x < 3))
 tail_while <- function(x, p) {
   stopifnot(is.vector(x))
 
@@ -215,27 +306,54 @@ tail_while <- function(x, p) {
   }
   return (x[start:length(x)])
 }
+#' tail_while combinator which returns tail elements while predicate is TRUE (infix version)
+#'
+#' @param x vector to filter
+#' @param p predicate
+#' @return tail filtered
 #' @export
 `%tail_while%` <- tail_while
 
 
+#' any combinator which returns TRUE if any element has TRUE predicate
+#'
+#' @param x vector to check
+#' @param p predicate
+#' @return boolean
 #' @export
 `%any%` <- function(x, p) {
   return (any(x %map% p))
 }
+#' all combinator which returns TRUE if all elements has TRUE predicate
+#'
+#' @param x vector to check
+#' @param p predicate
+#' @return boolean
 #' @export
 `%all%` <- function(x, p) {
   return (all(x %map% p))
 }
 
 
+#' has operator to check if vector contains element
+#'
+#' @param x vector to check
+#' @param e element to check
+#' @return boolean
 #' @export
 `%has%` <- function(x, e) {
   return (e %in% x)
 }
 
 
+#' flatMap combinator
+#'
+#' @param x list of vectors to which apply
+#' @param f function (or lambda expression) for mapping
+#' @return vector with applyed function
 #' @export
+#' @examples
+#' flatMap(list(c(1, 2, 3, 4), c(5, 6), c(7, 8, 9)), (~ x^2))
 flatMap <- function(x, f) {
   stopifnot(is.list(x))
 
@@ -249,13 +367,30 @@ flatMap <- function(x, f) {
 
   return (f(unlist(x)))
 }
+#' flatMap combinator (infix version)
+#'
+#' @param x list of vectors to which apply
+#' @param f function (or lambda expression) for mapping
+#' @return vector with applyed function
 #' @export
 `%flatMap%` <- flatMap
 
 
+#' identity function which returns element itselves
+#'
+#' @param x any object
+#' @return x parameter
 #' @export
 identity <- function (x) x
 
 
+#' flatten converts list of vectors to vector
+#'
+#' The same as x %flatMap% identity
+#'
+#' @param x list of vectors
+#' @return vector with applyed function
 #' @export
+#' @examples
+#' flatten(list(c(1, 2, 3, 4), c(5, 6), c(7, 8, 9)))
 flatten <- function(x) { x %flatMap% identity }

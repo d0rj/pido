@@ -23,21 +23,21 @@ lambda_to_func <- function(expr) {
     }
   }
 
-  vars_string <- ""
+  vars_string <- ''
   if (length(vars) == 0) {
-    vars_string <- ""
+    vars_string <- ''
   }
   else if (length(vars) == 1) {
     vars_string <- as.character(vars)
   }
   else {
     for (var in vars) {
-      vars_string <- paste(vars_string, as.character(var), sep=",")
+      vars_string <- paste(vars_string, as.character(var), sep=',')
     }
-    vars_string <- sub(".", "", vars_string)
+    vars_string <- sub('.', '', vars_string)
   }
 
-  return (eval(parse(text=paste("(function(", vars_string, ") {", expr_str_splitted[length(expr_str_splitted)], "})"))))
+  return (eval(parse(text=paste('(function(', vars_string, ') {', expr_str_splitted[length(expr_str_splitted)], '})'))))
 }
 
 

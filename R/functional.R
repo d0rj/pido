@@ -148,6 +148,8 @@ filter_not <- function(x, p) {
 }
 #' @export
 `%filter_not%` <- filter_not
+#' @export
+`%if_not%` <- filter_not
 
 
 #' @export
@@ -228,3 +230,21 @@ tail_while <- function(x, p) {
 `%has%` <- function(x, e) {
   return (e %in% x)
 }
+
+
+#' @export
+flatMap <- function(x, f) {
+  stopifnot(is.list(x))
+
+  if (length(x) == 0) {
+    return (x)
+  }
+
+  if (is.language(f)) {
+    f <- lambda_to_func(f)
+  }
+
+  return (f(unlist(x)))
+}
+#' @export
+`%flatMap%` <- flatMap

@@ -69,14 +69,13 @@ functor <- function(init=c(0)) {
 
 #' @export
 map <- function(x, f) {
-  if (is.function(f)) {
-    return (f(x))
-  }
+  stopifnot(is.vector(x))
+
   if (is.language(f)) {
     return (lambda_to_func(f)(x))
   }
 
-  return (NULL)
+  return (f(x))
 }
 #' @export
 `%map%` <- map
@@ -86,14 +85,11 @@ map <- function(x, f) {
 mapN <- function(x, f) {
   stopifnot(is.list(x))
 
-  if (is.function(f)) {
-    return (do.call(f, x))
-  }
   if (is.language(f)) {
     return (do.call(lambda_to_func(f), x))
   }
 
-  return (NULL)
+  return (do.call(f, x))
 }
 #' @export
 `%mapN%` <- mapN
@@ -104,12 +100,6 @@ invoke_map <- function(x, f) {
   stopifnot(is.list(x))
   stopifnot(is.vector(f))
 
-  if (is.function(f[[1]])) {
-    matrix <- sapply(1:length(x), function(i) do.call(f[[i]], x[i]))
-    result <- as.list(as.data.frame(matrix))
-    names(result) <- NULL
-    return (result)
-  }
   if (is.language(f[[1]])) {
     matrix <- sapply(1:length(x), function(i) do.call(lambda_to_func(f[[i]]), x[i]))
     result <- as.list(as.data.frame(matrix))
@@ -117,24 +107,38 @@ invoke_map <- function(x, f) {
     return (result)
   }
 
-  return (NULL)
+  matrix <- sapply(1:length(x), function(i) do.call(f[[i]], x[i]))
+  result <- as.list(as.data.frame(matrix))
+  names(result) <- NULL
+  return (result)
 }
 #' @export
 `%invoke_map%` <- invoke_map
 
 
 #' @export
-filter <- function(x, by, default=NULL) {
+filter <- function(x, by) {
   stopifnot(is.vector(x))
 
-  if (is.function(by)) {
-    return (x[by(x)])
-  }
   if (is.language(by)) {
     return (x[lambda_to_func(by)(x)])
   }
 
-  return (NULL)
+  return (x[by(x)])
 }
 #' @export
 `%filter%` <- filter
+
+
+#' @export
+filter_not <- function(x, by) {
+  stopifnot(is.vector(x))
+
+  if (is.language(by)) {
+    return (x[!lambda_to_func(by)(x)])
+  }
+
+  return (x[!by(x)])
+}
+#' @export
+`%filter_not%` <- filter_not

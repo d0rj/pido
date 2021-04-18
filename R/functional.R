@@ -156,21 +156,21 @@ head_while <- function(x, p) {
     p <- lambda_to_func(p)
   }
 
-  result <- c(x[1])
-  for (elem in x) {
-    if (!p(elem)) {
-      if (length(result) == 1) {
+  end <- 0
+  for (i in 1:length(x)) {
+    if (!p(x[i])) {
+      if (end == 0) {
         return (NULL)
       }
-      return (result[2:length(result)])
+      return (x[1:end])
     }
-    result <- c(result, elem)
+    end <- i
   }
 
-  if (length(result) == 1) {
+  if (end == 0) {
     return (NULL)
   }
-  return (result[2:length(result)])
+  return (x[1:end])
 }
 #' @export
 `%head_while%` <- head_while
@@ -188,21 +188,21 @@ tail_while <- function(x, p) {
     p <- lambda_to_func(p)
   }
 
-  result <- c(x[1])
+  start <- length(x) + 1
   for (i in length(x):1) {
     if (!p(x[i])) {
-      if (length(result) == 1) {
+      if (start > length(x)) {
         return (NULL)
       }
-      return (rev(result[2:length(result)]))
+      return (x[start:length(x)])
     }
-    result <- c(result, x[i])
+    start <- i
   }
 
-  if (length(result) == 1) {
+  if (start > length(x)) {
     return (NULL)
   }
-  return (rev(result[2:length(result)]))
+  return (x[start:length(x)])
 }
 #' @export
 `%tail_while%` <- tail_while

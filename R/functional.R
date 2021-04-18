@@ -117,28 +117,28 @@ invoke_map <- function(x, f) {
 
 
 #' @export
-filter <- function(x, by) {
+filter <- function(x, p) {
   stopifnot(is.vector(x))
 
-  if (is.language(by)) {
-    return (x[lambda_to_func(by)(x)])
+  if (is.language(p)) {
+    return (x[lambda_to_func(p)(x)])
   }
 
-  return (x[by(x)])
+  return (x[p(x)])
 }
 #' @export
 `%filter%` <- filter
 
 
 #' @export
-filter_not <- function(x, by) {
+filter_not <- function(x, p) {
   stopifnot(is.vector(x))
 
-  if (is.language(by)) {
-    return (x[!lambda_to_func(by)(x)])
+  if (is.language(p)) {
+    return (x[!lambda_to_func(p)(x)])
   }
 
-  return (x[!by(x)])
+  return (x[!p(x)])
 }
 #' @export
 `%filter_not%` <- filter_not
@@ -206,3 +206,13 @@ tail_while <- function(x, p) {
 }
 #' @export
 `%tail_while%` <- tail_while
+
+
+#' @export
+`%any%` <- function(x, p) {
+  return (any(x %map% p))
+}
+#' @export
+`%all%` <- function(x, p) {
+  return (all(x %map% p))
+}

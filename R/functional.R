@@ -39,10 +39,7 @@ lambda_to_func <- function(expr) {
   }
 
   if (vars_string == '')
-    vars_string <- str_extract(expr_str, '[a-zA-Z_]+')
-
-  if (is.na(vars_string))
-    vars_string <- '.'
+    vars_string <- str_extract(expr_str, '[a-zA-Z_.]+')
 
   return (eval(parse(text=paste('(function(', vars_string, ') {', expr_str_splitted[length(expr_str_splitted)], '})'))))
 }

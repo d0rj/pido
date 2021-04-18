@@ -9,5 +9,6 @@ Description: I don't know what it is, but
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Remotes: github::d0rj/pido
 Depends: R(>= 3.5), stringr, stringi
 RoxygenNote: 7.1.1

@@ -115,3 +115,20 @@ invoke_map <- function(x, f) {
 }
 #' @export
 `%invoke_map%` <- invoke_map
+
+
+#' @export
+filter <- function(x, by, default=NULL) {
+  stopifnot(is.vector(x))
+
+  if (is.function(by)) {
+    return (x[by(x)])
+  }
+  if (is.language(by)) {
+    return (x[lambda_to_func(by)(x)])
+  }
+
+  return (NULL)
+}
+#' @export
+`%filter%` <- filter

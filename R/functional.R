@@ -81,7 +81,7 @@ functor <- function(init=c(0)) {
 #' map(c(1, 2, 3, 4), (~ x^2))
 #' # c(1, 4, 9, 16)
 map <- function(x, f) {
-  stopifnot(is.vector(x))
+  stopifnot(is.vector(x) || is.list(x))
 
   if (is.language(f)) {
     return (lambda_to_func(f)(x))
@@ -167,7 +167,7 @@ invoke_map <- function(x, f) {
 #' @examples
 #' filter(c(1, 2, 3, 4, 5, 6), (~ x > 3))
 filter <- function(x, p) {
-  stopifnot(is.vector(x))
+  stopifnot(is.vector(x) || is.list(x))
 
   if (is.language(p)) {
     return (x[lambda_to_func(p)(x)])
@@ -200,7 +200,7 @@ filter <- function(x, p) {
 #' @examples
 #' filter_not(c(1, 2, 3, 4, 5, 6), (~ x > 3))
 filter_not <- function(x, p) {
-  stopifnot(is.vector(x))
+  stopifnot(is.vector(x) || is.list(x))
 
   if (is.language(p)) {
     return (x[!lambda_to_func(p)(x)])
@@ -233,7 +233,7 @@ filter_not <- function(x, p) {
 #' @examples
 #' head_while(c(1, 2, 3, 4, 1, 2), (~ x < 3))
 head_while <- function(x, p) {
-  stopifnot(is.vector(x))
+  stopifnot(is.vector(x) || is.list(x))
 
   if (length(x) == 0) {
     return (x)
@@ -277,7 +277,7 @@ head_while <- function(x, p) {
 #' @examples
 #' tail_while(c(1, 2, 3, 4, 1, 2), (~ x < 3))
 tail_while <- function(x, p) {
-  stopifnot(is.vector(x))
+  stopifnot(is.vector(x) || is.list(x))
 
   if (length(x) == 0) {
     return (x)

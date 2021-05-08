@@ -18,6 +18,6 @@ vector with applyed function
 mapN combinator (apply map for each elements of subvectors respectively)
 }
 \examples{
-mapN(list(c(4, 5, 6), c(7, 8, 9)), (x ~ y ~ z ~ x + y + z))
+mapN(list(c(1, 2, 3), c(4, 5, 6), c(7, 8, 9)), (x ~ y ~ z ~ x + y + z))
 # list(c(1, 4, 9), c(16, 25, 36), c(49, 64))
 }

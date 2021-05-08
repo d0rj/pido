@@ -158,15 +158,15 @@ invoke_map <- function(x, f) {
 `%invoke_map%` <- invoke_map
 
 
-#' filter combinator which returns filtered vector by predicate
+#' filt combinator which returns filtered vector by predicate
 #'
 #' @param x vector to filter
 #' @param p predicate
 #' @return filtered vector
 #' @export
 #' @examples
-#' filter(c(1, 2, 3, 4, 5, 6), (~ x > 3))
-filter <- function(x, p) {
+#' filt(c(1, 2, 3, 4, 5, 6), (~ x > 3))
+filt <- function(x, p) {
   stopifnot(is.vector(x) || is.list(x))
 
   if (is.language(p)) {
@@ -175,31 +175,31 @@ filter <- function(x, p) {
 
   return (x[p(x)])
 }
-#' filter combinator which returns filtered vector by predicate (infix version)
+#' filt combinator which returns filtered vector by predicate (infix version)
 #'
 #' @param x vector to filter
 #' @param p predicate
 #' @return filtered vector
 #' @export
-`%filter%` <- filter
+`%filt%` <- filt
 #' if combinator which returns filtered vector by predicate as 'filter' (infix version)
 #'
 #' @param x vector to filter
 #' @param p predicate
 #' @return filtered vector
 #' @export
-`%if%` <- filter
+`%if%` <- filt
 
 
-#' filter_not combinator which returns filtered vector by reversed predicate
+#' filt_not combinator which returns filtered vector by reversed predicate
 #'
 #' @param x vector to filter
 #' @param p predicate
 #' @return filtered vector
 #' @export
 #' @examples
-#' filter_not(c(1, 2, 3, 4, 5, 6), (~ x > 3))
-filter_not <- function(x, p) {
+#' filt_not(c(1, 2, 3, 4, 5, 6), (~ x > 3))
+filt_not <- function(x, p) {
   stopifnot(is.vector(x) || is.list(x))
 
   if (is.language(p)) {
@@ -208,20 +208,20 @@ filter_not <- function(x, p) {
 
   return (x[!p(x)])
 }
-#' filter combinator which returns filtered vector by reversed predicate (infix version)
+#' filt_not combinator which returns filtered vector by reversed predicate (infix version)
 #'
 #' @param x vector to filter
 #' @param p predicate
 #' @return filtered vector
 #' @export
-`%filter_not%` <- filter_not
-#' if_not combinator which returns filtered vector by reversed predicate as 'filter_not' (infix version)
+`%filt_not%` <- filt_not
+#' if_not combinator which returns filtered vector by reversed predicate as 'filt_not' (infix version)
 #'
 #' @param x vector to filter
 #' @param p predicate
 #' @return filtered vector
 #' @export
-`%if_not%` <- filter_not
+`%if_not%` <- filt_not
 
 
 #' head_while combinator which returns head elements while predicate is TRUE

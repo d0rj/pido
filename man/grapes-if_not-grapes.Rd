@@ -2,7 +2,7 @@
 % Please edit documentation in R/functional.R
 \name{\%if_not\%}
 \alias{\%if_not\%}
-\title{if_not combinator which returns filtered vector by reversed predicate as 'filter_not' (infix version)}
+\title{if_not combinator which returns filtered vector by reversed predicate as 'filt_not' (infix version)}
 \usage{
 x \%if_not\% p
 }
@@ -15,5 +15,5 @@ x \%if_not\% p
 filtered vector
 }
 \description{
-if_not combinator which returns filtered vector by reversed predicate as 'filter_not' (infix version)
+if_not combinator which returns filtered vector by reversed predicate as 'filt_not' (infix version)
 }

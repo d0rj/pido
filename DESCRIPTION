@@ -1,7 +1,7 @@
 Package: pido
 Type: Package
-Title: Educational package for computational linguistics
-Version: 0.1.0
+Title: Educational multi-purpose package with functional stuff
+Version: 0.2.0
 Author: Dima Balobin
 Maintainer: The package maintainer <hanaan@internet.ru>
 Description: I don't know what it is, but
@@ -10,5 +10,5 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Remotes: github::d0rj/pido
-Depends: R(>= 3.5), stringr, stringi
+Depends: R(>= 3.6), stringr, stringi
 RoxygenNote: 7.1.1

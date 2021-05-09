@@ -13,35 +13,44 @@ library(stringr)
 #' })(3)
 #' # 8
 lambda_to_func <- function(expr) {
-  expr <- as.expression(expr)
+  this.expr <- as.expression(expr)
 
-  expr_str <- as.character(expr, collapse='')
-  expr_str_splitted <- strsplit(expr_str, split='~', fixed=TRUE)[[1]]
-  vars <- c()
-  for (v in expr_str_splitted[1:(length(expr_str_splitted) - 1)]) {
-    if (v != '') {
-      vars <- c(vars, v)
+  this.expr_str <- as.character(this.expr, collapse='')
+  this.expr_str_splitted <- strsplit(this.expr_str, split='~', fixed=TRUE)[[1]]
+  this.vars <- c()
+  for (this.v in this.expr_str_splitted[1:(length(this.expr_str_splitted) - 1)]) {
+    if (this.v != '') {
+      this.vars <- c(this.vars, this.v)
     }
   }
 
-  vars_string <- ''
-  if (length(vars) == 0) {
-    vars_string <- ''
+  this.vars_string <- ''
+  if (length(this.vars) == 0) {
+    this.vars_string <- ''
   }
-  else if (length(vars) == 1) {
-    vars_string <- as.character(vars)
+  else if (length(this.vars) == 1) {
+    this.vars_string <- as.character(this.vars)
   }
   else {
-    for (var in vars) {
-      vars_string <- paste(vars_string, as.character(var), sep=',')
+    for (this.var in this.vars) {
+      this.vars_string <- paste(this.vars_string, as.character(this.var), sep=',')
     }
-    vars_string <- sub('.', '', vars_string)
+    this.vars_string <- sub('.', '', this.vars_string)
   }
 
-  if (vars_string == '')
-    vars_string <- str_extract(expr_str, '[a-zA-Z_.]+')
+  if (this.vars_string == '') {
+    this.identificators <- str_extract_all(this.expr_str, '[a-zA-Z_.[ \u3d]?]+')[[1]]
+    for (this.identificator in this.identificators) {
+      if (str_detect(this.identificator, '=') || gsub(" ", "", this.identificator, fixed = TRUE) == '')
+        next
+      if (!exists(this.identificator)) {
+        this.vars_string <- paste(this.vars_string, this.identificator, sep=',')
+      }
+    }
+    this.vars_string <- sub('.', '', this.vars_string)
+  }
 
-  return (eval(parse(text=paste('(function(', vars_string, ') {', expr_str_splitted[length(expr_str_splitted)], '})'))))
+  return (eval(parse(text=paste('(function(', this.vars_string, ') {', this.expr_str_splitted[length(this.expr_str_splitted)], '})'))))
 }
 
 

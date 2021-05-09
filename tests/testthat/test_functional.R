@@ -29,6 +29,10 @@ test_that('Syntax variation', {
 
   expect_equal(lambda_to_func(~ paste(x, y))        ('hello', 'world'), lambda_to_func(x ~ y ~ paste(x, y))        ('hello', 'world'))
   expect_equal(lambda_to_func(~ paste(x, y, sep=''))('hello', 'world'), lambda_to_func(x ~ y ~ paste(x, y, sep=''))('hello', 'world'))
+  expect_equal(lambda_to_func(~ {
+    dbl <- x * 2
+    return (dbl + y)
+  })(5, 3), 13)
 })
 
 

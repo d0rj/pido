@@ -39,11 +39,20 @@ lambda_to_func <- function(expr) {
   }
 
   if (this.vars_string == '') {
-    this.identificators <- str_extract_all(this.expr_str, '[a-zA-Z_.[ \u3d]?]+')[[1]]
-    for (this.identificator in this.identificators) {
-      if (str_detect(this.identificator, '=') || gsub(" ", "", this.identificator, fixed = TRUE) == '')
+    this.identificators <- str_extract_all(this.expr_str, '[a-zA-Z_.[ \u3d]?]+(<-)?')[[1]]
+
+    this.identificators <- gsub(' ', '', this.identificators, fixed = TRUE)
+    this.identificators <- this.identificators[this.identificators != '']
+    this.identificators <- unique(this.identificators)
+
+    for (this.identificator in unique(this.identificators)) {
+      if (str_detect(this.identificator, '=') || str_detect(this.identificator, '<-')) {
+        eval(parse(text=paste('.', this.identificator, '0', sep='')))
         next
-      if (!exists(this.identificator)) {
+      }
+      if (this.identificator == '')
+        next
+      if (!exists(this.identificator) && !exists(paste('.', this.identificator, sep=''))) {
         this.vars_string <- paste(this.vars_string, this.identificator, sep=',')
       }
     }

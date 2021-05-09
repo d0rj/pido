@@ -170,10 +170,20 @@ filt <- function(x, p) {
   stopifnot(is.vector(x) || is.list(x))
 
   if (is.language(p)) {
-    return (x[lambda_to_func(p)(x)])
+    if (is.vector(x)) {
+      return (x[lambda_to_func(p)(x)])
+    }
+    else {
+      return (x[lambda_to_func(p)(x),])
+    }
   }
 
-  return (x[p(x)])
+  if (is.vector(x)) {
+    return (x[p(x)])
+  }
+  else {
+    return (x[p(x),])
+  }
 }
 #' filt combinator which returns filtered vector by predicate (infix version)
 #'
@@ -203,10 +213,20 @@ filt_not <- function(x, p) {
   stopifnot(is.vector(x) || is.list(x))
 
   if (is.language(p)) {
-    return (x[!lambda_to_func(p)(x)])
+    if (is.vector(x)) {
+      return (x[!lambda_to_func(p)(x)])
+    }
+    else {
+      return (x[!lambda_to_func(p)(x),])
+    }
   }
 
-  return (x[!p(x)])
+  if (is.vector(x)) {
+    return (x[!p(x)])
+  }
+  else {
+    return (x[!p(x),])
+  }
 }
 #' filt_not combinator which returns filtered vector by reversed predicate (infix version)
 #'

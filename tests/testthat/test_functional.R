@@ -33,6 +33,11 @@ test_that('Syntax variation', {
     dbl <- x * 2
     return (dbl + y)
   })(5, 3), 13)
+  expect_equal(lambda_to_func(~ {
+    dbl <- .x * 2
+    trpl <- .y * 3
+    return (dbl + trpl)
+  })(5, 10), 40)
 })
 
 

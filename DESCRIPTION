@@ -10,5 +10,8 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Remotes: github::d0rj/pido
-Depends: R(>= 3.6), stringr, stringi
+Depends: R(>= 3.6)
+Imports: 
+  stringr, 
+  stringi
 RoxygenNote: 7.1.1

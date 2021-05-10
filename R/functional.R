@@ -39,14 +39,14 @@ lambda_to_func <- function(expr) {
   }
 
   if (this.vars_string == '') {
-    this.identificators <- str_extract_all(this.expr_str, '[a-zA-Z_.[ \u3d]?]+(<-)?')[[1]]
+    this.identificators <- stringr::str_extract_all(this.expr_str, '[a-zA-Z_.[ \u3d]?]+(<-)?')[[1]]
 
     this.identificators <- gsub(' ', '', this.identificators, fixed = TRUE)
     this.identificators <- this.identificators[this.identificators != '']
     this.identificators <- unique(this.identificators)
 
     for (this.identificator in unique(this.identificators)) {
-      if (str_detect(this.identificator, '=') || str_detect(this.identificator, '<-')) {
+      if (stringr::str_detect(this.identificator, '=') || stringr::str_detect(this.identificator, '<-')) {
         eval(parse(text=paste('.', this.identificator, '0', sep='')))
         next
       }

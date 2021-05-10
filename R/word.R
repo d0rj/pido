@@ -50,7 +50,7 @@ porterStem.ru <- function(word) {
   # Ё Е
   word <- gsub('\u0451', '\u0435', word)
 
-  m <- str_match(word, RVRE)
+  m <- stringr::str_match(word, RVRE)
 
   if (OR(is.na(m))) {
     return ('')
@@ -59,18 +59,18 @@ porterStem.ru <- function(word) {
   pre <- m[2]
   rv <- m[3]
 
-  temp <- str_replace(rv, PERFECTIVEGROUND, '')
+  temp <- stringr::str_replace(rv, PERFECTIVEGROUND, '')
   if (temp == rv) {
-    rv <- str_replace(rv, REFLEXIVE, '')
-    temp <- str_replace(rv, ADJECTIVE, '')
+    rv <- stringr::str_replace(rv, REFLEXIVE, '')
+    temp <- stringr::str_replace(rv, ADJECTIVE, '')
     if (temp != rv) {
       rv <- temp
-      rv <- str_replace(rv, PARTICIPLE, '')
+      rv <- stringr::str_replace(rv, PARTICIPLE, '')
     }
     else {
-      temp <- str_replace(rv, VERB, '')
+      temp <- stringr::str_replace(rv, VERB, '')
       if (temp == rv) {
-        rv <- str_replace(rv, NOUN, '')
+        rv <- stringr::str_replace(rv, NOUN, '')
       }
       else {
         rv <- temp
@@ -81,17 +81,17 @@ porterStem.ru <- function(word) {
     rv <- temp
   }
 
-  rv <- str_replace(rv, I, '')
+  rv <- stringr::str_replace(rv, I, '')
 
-  if (OR(!is.na(str_match(rv, DERIVATIONAL)))) {
-    rv <- str_replace(rv, DER, '')
+  if (OR(!is.na(stringr::str_match(rv, DERIVATIONAL)))) {
+    rv <- stringr::str_replace(rv, DER, '')
   }
 
-  temp <- str_replace(rv, P, '')
+  temp <- stringr::str_replace(rv, P, '')
 
   if (temp == rv) {
-    rv <- str_replace(rv, SUPERLATIVE, '')
-    rv <- str_replace(rv, NN, '')
+    rv <- stringr::str_replace(rv, SUPERLATIVE, '')
+    rv <- stringr::str_replace(rv, NN, '')
   }
   else {
     rv <- temp
@@ -115,13 +115,13 @@ splitstring <- function(x) { strsplit(x, NULL)[[1]] }
 h1 <- function(x) {
   stopifnot(is.character(x))
 
-  l <- str_detect('aeiou', splitstring(x))
+  l <- stringr::str_detect('aeiou', splitstring(x))
   k <- length(splitstring(x))
   z <- splitstring(x)[1:k]
   i <- 2;
 
   while (k > 1 && i <= k) {
-    if (splitstring(x)[i] == 'y' && !str_detect(z[i - 1], '[aeiou]')) {
+    if (splitstring(x)[i] == 'y' && !stringr::str_detect(z[i - 1], '[aeiou]')) {
       l[i] <- TRUE
     }
     i <- i + 1;
@@ -170,13 +170,13 @@ v <- function(x1, y1='') {
   i <- 2;
 
   while (k > 1 && i <= k) {
-    if (z[i] == 'y' && !str_detect(z[i - 1], '[aeiou]')) {
+    if (z[i] == 'y' && !stringr::str_detect(z[i - 1], '[aeiou]')) {
         check <- TRUE
     }
     i = i + 1;
   }
 
-  if (str_detect(w, '[aeiou]'))
+  if (stringr::str_detect(w, '[aeiou]'))
     check <- TRUE
 
   return (check)
@@ -219,10 +219,10 @@ cvc <- function(x1, y1='') {
     v <- splitstring(x1)[k - 1]
     c1 <- splitstring(x1)[k - 2]
 
-    t1 <- str_detect(c1, '[aeiou]')
-    t2 <- str_detect(v, '[aeiouy]')
-    t3 <- str_detect(c2, '[aeiou]')
-    t4 <- str_detect(c2, '[wxy]')
+    t1 <- stringr::str_detect(c1, '[aeiou]')
+    t2 <- stringr::str_detect(v, '[aeiouy]')
+    t3 <- stringr::str_detect(c2, '[aeiou]')
+    t4 <- stringr::str_detect(c2, '[wxy]')
 
     if (!t1 && t2 && !t3 && !t4)
       check <- TRUE
@@ -245,51 +245,51 @@ porterStem.en <- function(x) {
   stopifnot(is.character(x))
 
   if (length(splitstring(x)) > 2) {
-    if (str_detect(x, 's$')) {
-      if (str_detect(x, 'sses$')) {
-        x <- str_replace(x,'sses$', 'ss')
+    if (stringr::str_detect(x, 's$')) {
+      if (stringr::str_detect(x, 'sses$')) {
+        x <- stringr::str_replace(x,'sses$', 'ss')
       }
-      else if (str_detect(x, 'ies$')) {
-        x <- str_replace(x, 'ies$', 'i')
+      else if (stringr::str_detect(x, 'ies$')) {
+        x <- stringr::str_replace(x, 'ies$', 'i')
       }
-      else if (str_detect(x, 'ss$')) {
-        x <- str_replace(x, 'ss$', 'ss')
+      else if (stringr::str_detect(x, 'ss$')) {
+        x <- stringr::str_replace(x, 'ss$', 'ss')
       }
-      else if (str_detect(x, 's$')) {
-        x <- str_replace(x, 's$', '')
+      else if (stringr::str_detect(x, 's$')) {
+        x <- stringr::str_replace(x, 's$', '')
       }
     }
 
   # Step 1b)
   flag <- 0
-  if (str_detect(x, 'eed$')) {
+  if (stringr::str_detect(x, 'eed$')) {
     if (m(x, 'eed') > 0)
-      x <- str_replace(x, 'eed$', 'ee')
+      x <- stringr::str_replace(x, 'eed$', 'ee')
   }
-  else if (str_detect(x, 'ed$')) {
+  else if (stringr::str_detect(x, 'ed$')) {
     if (v(x, 'ed')) {
-      x <- str_replace(x, 'ed$', '')
+      x <- stringr::str_replace(x, 'ed$', '')
       flag <- 1
     }
   }
-  else if (str_detect(x, 'ing$')) {
+  else if (stringr::str_detect(x, 'ing$')) {
     if (v(x, 'ing')) {
-      x <- str_replace(x, 'ing$', '')
+      x <- stringr::str_replace(x, 'ing$', '')
       flag <- 1
     }
   }
 
   if (flag == 1) {
-    if (str_detect(x, 'at$')){
-      x <- str_replace(x, 'at$', 'ate')
+    if (stringr::str_detect(x, 'at$')){
+      x <- stringr::str_replace(x, 'at$', 'ate')
     }
-    else if (str_detect(x, 'bl$')) {
-      x <- str_replace(x, 'bl$', 'ble')
+    else if (stringr::str_detect(x, 'bl$')) {
+      x <- stringr::str_replace(x, 'bl$', 'ble')
     }
-    else if (str_detect(x, 'iz$')) {
-      x <- str_replace(x, 'iz$', 'ize')
+    else if (stringr::str_detect(x, 'iz$')) {
+      x <- stringr::str_replace(x, 'iz$', 'ize')
     }
-    else if (!str_detect(x, '[lsz]$') && d(x)) {
+    else if (!stringr::str_detect(x, '[lsz]$') && d(x)) {
       x <- paste0(splitstring(x)[1:(length(splitstring(x)) - 1)], collapse='')
     }
     else if (m(x) == 1 && cvc(x)) {
@@ -298,219 +298,219 @@ porterStem.en <- function(x) {
   }
 
   # Step 1c)
-  if (str_detect(x, 'y$')) {
+  if (stringr::str_detect(x, 'y$')) {
     if (v(x, 'y'))
-      x <- str_replace(x, 'y$', 'i')
+      x <- stringr::str_replace(x, 'y$', 'i')
   }
 
 
   # Step 2
-  if (str_detect(x, 'ational$')) {
+  if (stringr::str_detect(x, 'ational$')) {
     if (m(x, 'ational') > 0)
-      x <- str_replace(x, 'ational$', 'ate')
+      x <- stringr::str_replace(x, 'ational$', 'ate')
   }
-  else if (str_detect(x, 'tional$')) {
+  else if (stringr::str_detect(x, 'tional$')) {
     if (m(x, 'tional') > 0)
-      x <- str_replace(x, 'tional$', 'tion')
+      x <- stringr::str_replace(x, 'tional$', 'tion')
   }
-  else if (str_detect(x, 'enci$')) {
+  else if (stringr::str_detect(x, 'enci$')) {
     if (m(x, 'enci') > 0)
-      x <- str_replace(x, 'enci$', 'ence')
+      x <- stringr::str_replace(x, 'enci$', 'ence')
   }
-  else if (str_detect(x, 'anci$')) {
+  else if (stringr::str_detect(x, 'anci$')) {
     if (m(x, 'anci') > 0)
-      x <- str_replace(x, 'anci$', 'ance')
+      x <- stringr::str_replace(x, 'anci$', 'ance')
   }
-  else if (str_detect(x, 'izer$')) {
+  else if (stringr::str_detect(x, 'izer$')) {
     if (m(x, 'izer') > 0)
-      x <- str_replace(x, 'izer$', 'ize')
+      x <- stringr::str_replace(x, 'izer$', 'ize')
   }
-  else if (str_detect(x, 'logi$')) {
+  else if (stringr::str_detect(x, 'logi$')) {
     if (m(x, 'logi') > 0)
-      x <- str_replace(x, 'logi$', 'log')
+      x <- stringr::str_replace(x, 'logi$', 'log')
   }
-  else if (str_detect(x, 'bli$')) {
+  else if (stringr::str_detect(x, 'bli$')) {
     if (m(x, 'bli') > 0)
-      x <- str_replace(x, 'bli$', 'ble')
+      x <- stringr::str_replace(x, 'bli$', 'ble')
   }
-  else if (str_detect(x, 'alli$')) {
+  else if (stringr::str_detect(x, 'alli$')) {
     if (m(x, 'alli') > 0)
-      x <- str_replace(x, 'alli$', 'al')
+      x <- stringr::str_replace(x, 'alli$', 'al')
   }
-  else if (str_detect(x, 'entli$')) {
+  else if (stringr::str_detect(x, 'entli$')) {
     if (m(x, 'entli') > 0)
-      x <- str_replace(x, 'entli$', 'ent')
+      x <- stringr::str_replace(x, 'entli$', 'ent')
   }
-  else if (str_detect(x, 'eli$')) {
+  else if (stringr::str_detect(x, 'eli$')) {
     if (m(x, 'eli') > 0)
-      x <- str_replace(x, 'eli$', 'e')
+      x <- stringr::str_replace(x, 'eli$', 'e')
   }
-  else if (str_detect(x, 'ousli$')) {
+  else if (stringr::str_detect(x, 'ousli$')) {
     if (m(x, 'ousli') > 0)
-      x <- str_replace(x, 'ousli$', 'ous')
+      x <- stringr::str_replace(x, 'ousli$', 'ous')
   }
-  else if (str_detect(x, 'ization$')) {
+  else if (stringr::str_detect(x, 'ization$')) {
     if (m(x, 'ization') > 0)
-      x <- str_replace(x, 'ization$', 'ize')
+      x <- stringr::str_replace(x, 'ization$', 'ize')
   }
-  else if (str_detect(x, 'ation$')) {
+  else if (stringr::str_detect(x, 'ation$')) {
     if (m(x, 'ation') > 0)
-      x <- str_replace(x, 'ation$', 'ate')
+      x <- stringr::str_replace(x, 'ation$', 'ate')
   }
-  else if (str_detect(x, 'ator$')) {
+  else if (stringr::str_detect(x, 'ator$')) {
     if (m(x, 'ator') > 0)
-      x <- str_replace(x, 'ator$', 'ate')
+      x <- stringr::str_replace(x, 'ator$', 'ate')
   }
-  else if (str_detect(x, 'alism$')) {
+  else if (stringr::str_detect(x, 'alism$')) {
     if (m(x, 'alism') > 0)
-      x <- str_replace(x, 'alism$', 'al')
+      x <- stringr::str_replace(x, 'alism$', 'al')
   }
-  else if (str_detect(x, 'iveness$')) {
+  else if (stringr::str_detect(x, 'iveness$')) {
     if (m(x, 'iveness') > 0)
-      x <- str_replace(x, 'iveness$', 'ive')
+      x <- stringr::str_replace(x, 'iveness$', 'ive')
   }
-  else if (str_detect(x, 'fulness$')) {
+  else if (stringr::str_detect(x, 'fulness$')) {
     if (m(x, 'fulness') > 0)
-      x <- str_replace(x, 'fulness$', 'ful')
+      x <- stringr::str_replace(x, 'fulness$', 'ful')
   }
-  else if (str_detect(x, 'ousness$')) {
+  else if (stringr::str_detect(x, 'ousness$')) {
     if (m(x, 'ousness') > 0)
-      x <- str_replace(x, 'ousness$', 'ous')
+      x <- stringr::str_replace(x, 'ousness$', 'ous')
   }
-  else if (str_detect(x, 'aliti$')) {
+  else if (stringr::str_detect(x, 'aliti$')) {
     if (m(x, 'aliti') > 0)
-      x <- str_replace(x, 'aliti$', 'al')
+      x <- stringr::str_replace(x, 'aliti$', 'al')
   }
-  else if (str_detect(x, 'iviti$')) {
+  else if (stringr::str_detect(x, 'iviti$')) {
     if (m(x, 'iviti') > 0)
-      x <- str_replace(x, 'iviti$', 'ive')
+      x <- stringr::str_replace(x, 'iviti$', 'ive')
   }
-  else if (str_detect(x, 'biliti$')) {
+  else if (stringr::str_detect(x, 'biliti$')) {
     if (m(x, 'biliti') > 0)
-      x <- str_replace(x, 'biliti$', 'ble')
+      x <- stringr::str_replace(x, 'biliti$', 'ble')
   }
 
   # Step 3
-  if (str_detect(x, 'icate$')) {
+  if (stringr::str_detect(x, 'icate$')) {
     if (m(x, 'icate') > 0)
-      x <- str_replace(x, 'icate$', 'ic')
+      x <- stringr::str_replace(x, 'icate$', 'ic')
   }
-  else if (str_detect(x, 'ative$')) {
+  else if (stringr::str_detect(x, 'ative$')) {
     if (m(x, 'ative') > 0)
-      x <- str_replace(x, 'ative$', '')
+      x <- stringr::str_replace(x, 'ative$', '')
   }
-  else if (str_detect(x, 'alize$')) {
+  else if (stringr::str_detect(x, 'alize$')) {
     if (m(x, 'alize') > 0)
-      x <- str_replace(x, 'alize$', 'al')
+      x <- stringr::str_replace(x, 'alize$', 'al')
   }
-  else if (str_detect(x, 'iciti$')) {
+  else if (stringr::str_detect(x, 'iciti$')) {
     if (m(x, 'iciti') > 0)
-      x <- str_replace(x, 'iciti$', 'ic')
+      x <- stringr::str_replace(x, 'iciti$', 'ic')
   }
-  else if (str_detect(x, 'ical$')) {
+  else if (stringr::str_detect(x, 'ical$')) {
     if (m(x, 'ical') > 0)
-      x <- str_replace(x, 'ical$', 'ic')
+      x <- stringr::str_replace(x, 'ical$', 'ic')
   }
-  else if (str_detect(x, 'ful$')) {
+  else if (stringr::str_detect(x, 'ful$')) {
     if (m(x, 'ful') > 0)
-      x <- str_replace(x, 'ful$', '')
+      x <- stringr::str_replace(x, 'ful$', '')
   }
-  else if (str_detect(x, 'ness$')) {
+  else if (stringr::str_detect(x, 'ness$')) {
     if (m(x, 'ness') > 0)
-      x <- str_replace(x, 'ness$', '')
+      x <- stringr::str_replace(x, 'ness$', '')
   }
 
   # Step 4
-  if (str_detect(x, 'al$')) {
+  if (stringr::str_detect(x, 'al$')) {
     if (m(x, 'al') > 1)
-      x <- str_replace(x, 'al$', '')
+      x <- stringr::str_replace(x, 'al$', '')
   }
-  else if (str_detect(x, 'ance$')) {
+  else if (stringr::str_detect(x, 'ance$')) {
     if (m(x, 'ance') > 1)
-      x <- str_replace(x, 'ance$', '')
+      x <- stringr::str_replace(x, 'ance$', '')
   }
-  else if (str_detect(x, 'ence$')) {
+  else if (stringr::str_detect(x, 'ence$')) {
     if (m(x, 'ence') > 1)
-      x <- str_replace(x, 'ence$', '')
+      x <- stringr::str_replace(x, 'ence$', '')
   }
-  else if (str_detect(x, 'er$')) {
+  else if (stringr::str_detect(x, 'er$')) {
     if (m(x, 'er') > 1)
-      x <- str_replace(x, 'er$', '')
+      x <- stringr::str_replace(x, 'er$', '')
   }
-  else if (str_detect(x, 'ic$')) {
+  else if (stringr::str_detect(x, 'ic$')) {
     if (m(x, 'ic') > 1)
-      x <- str_replace(x, 'ic$', '')
+      x <- stringr::str_replace(x, 'ic$', '')
   }
-  else if (str_detect(x, 'able$')) {
+  else if (stringr::str_detect(x, 'able$')) {
     if (m(x, 'able') > 1)
-      x <- str_replace(x, 'able$', '')
+      x <- stringr::str_replace(x, 'able$', '')
   }
-  else if (str_detect(x, 'ible$')) {
+  else if (stringr::str_detect(x, 'ible$')) {
     if (m(x, 'ible') > 1)
-      x <- str_replace(x, 'ible$', '')
+      x <- stringr::str_replace(x, 'ible$', '')
   }
-  else if (str_detect(x, 'ant$')) {
+  else if (stringr::str_detect(x, 'ant$')) {
     if (m(x, 'ant') > 1)
-      x <- str_replace(x, 'ant$', '')
+      x <- stringr::str_replace(x, 'ant$', '')
   }
-  else if (str_detect(x, 'ement$')) {
+  else if (stringr::str_detect(x, 'ement$')) {
     if (m(x, 'ement') > 1)
-      x <- str_replace(x, 'ement$', '')
+      x <- stringr::str_replace(x, 'ement$', '')
   }
-  else if (str_detect(x, 'ment$')) {
+  else if (stringr::str_detect(x, 'ment$')) {
     if (m(x, 'ment') > 1)
-      x <- str_replace(x, 'ment$', '')
+      x <- stringr::str_replace(x, 'ment$', '')
   }
-  else if (str_detect(x, 'ent$')) {
+  else if (stringr::str_detect(x, 'ent$')) {
     if (m(x, 'ent') > 1)
-      x <- str_replace(x, 'ent$', '')
+      x <- stringr::str_replace(x, 'ent$', '')
   }
-  else if (str_detect(x, 'sion$') || str_detect(x, 'tion$')) {
+  else if (stringr::str_detect(x, 'sion$') || stringr::str_detect(x, 'tion$')) {
     if (m(x, 'ion') > 1)
-      x <- str_replace(x, 'ion$', '')
+      x <- stringr::str_replace(x, 'ion$', '')
   }
-  else if (str_detect(x, 'ou$')) {
+  else if (stringr::str_detect(x, 'ou$')) {
     if (m(x, 'ou') > 1)
-      x <- str_replace(x, 'ou$', '')
+      x <- stringr::str_replace(x, 'ou$', '')
   }
-  else if (str_detect(x, 'ism$')) {
+  else if (stringr::str_detect(x, 'ism$')) {
     if (m(x, 'ism') > 1)
-      x <- str_replace(x, 'ism$', '')
+      x <- stringr::str_replace(x, 'ism$', '')
   }
-  else if (str_detect(x, 'ate$')) {
+  else if (stringr::str_detect(x, 'ate$')) {
     if (m(x, 'ate') > 1)
-      x <- str_replace(x, 'ate$', '')
+      x <- stringr::str_replace(x, 'ate$', '')
   }
-  else if (str_detect(x, 'iti$')) {
+  else if (stringr::str_detect(x, 'iti$')) {
     if (m(x, 'iti') > 1)
-      x <- str_replace(x, 'iti$', '')
+      x <- stringr::str_replace(x, 'iti$', '')
   }
-  else if (str_detect(x, 'ous$')) {
+  else if (stringr::str_detect(x, 'ous$')) {
     if (m(x, 'ous') > 1)
-      x <- str_replace(x, 'ous$', '')
+      x <- stringr::str_replace(x, 'ous$', '')
   }
-  else if (str_detect(x, 'ive$')) {
+  else if (stringr::str_detect(x, 'ive$')) {
     if (m(x, 'ive') > 1)
-      x <- str_replace(x, 'ive$', '')
+      x <- stringr::str_replace(x, 'ive$', '')
   }
-  else if (str_detect(x, 'ize$')) {
+  else if (stringr::str_detect(x, 'ize$')) {
     if (m(x, 'ize') > 1)
-      x <- str_replace(x, 'ize$', '')
+      x <- stringr::str_replace(x, 'ize$', '')
   }
 
   # Step 5a)
-  if (str_detect(x, 'e$')) {
+  if (stringr::str_detect(x, 'e$')) {
     if (m(x, 'e') > 1) {
-      x <- str_replace(x, 'e$', '')
+      x <- stringr::str_replace(x, 'e$', '')
     }
     else if (m(x, 'e') == 1 && !cvc(x, 'e')) {
-      x <- str_replace(x, 'e$', '')
+      x <- stringr::str_replace(x, 'e$', '')
     }
   }
 
   # Step 5b)
-  if (m(x) > 1 && str_detect(x, 'll$')) {
-    x <- str_replace(x, 'l$', '')
+  if (m(x) > 1 && stringr::str_detect(x, 'll$')) {
+    x <- stringr::str_replace(x, 'l$', '')
   }
   }
 

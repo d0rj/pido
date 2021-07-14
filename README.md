@@ -2,10 +2,10 @@
 
 ## Overview
 
-Utils package. Contains:
+🛠Utils package. Contains:
 
 * Functional analogues of **dplyr**'s pipe operator `%>%`, such as `%map%` etc. Supports default R types, for example **dataframe**
-* Own syntax of lambda functions for this pipe operators (and pipe operators also support default R functions `function(...) {...}`)
+* Own syntax of λambda functions for this pipe operators (and pipe operators also support default R functions `function(...) {...}`)
 * Porter stemmer for 🇬🇧 english and 🇷🇺 Russian languages
 * Text tokenizers by sentences, words, n-gramms
 
@@ -61,7 +61,7 @@ list(c(1, 2), c(2, 3)) %map% (~ {
 })
 ```
 
-this code will worl correctly and will be equivalent of
+this code will work correctly and will be equivalent of
 
 ```R
 sapply(list(c(1, 2), c(2, 3)), function(x, y) {
@@ -70,3 +70,11 @@ sapply(list(c(1, 2), c(2, 3)), function(x, y) {
     return (dbl + trpl)
 })
 ```
+
+## Notes
+
+- [x] Distribution-ready
+- [ ] More tests will be added
+- [ ] CRAN package
+
+PIDO abbreviation stands for [it](https://www.youtube.com/watch?v=yJ6J0yeqt7Q&ab_channel=ExtremeCode).
